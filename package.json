@@ -1,0 +1,15 @@
+{
+  "name": "herdr-bots",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bots: bot coordination for herdr panes running harness (PoC)",
+  "type": "module",
+  "bin": {
+    "bots": "src/cli.ts"
+  },
+  "scripts": {
+    "daemon": "bun src/cli.ts daemon",
+    "mcp": "bun src/cli.ts mcp",
+    "check": "bun build src/cli.ts --target=bun --outdir /tmp/bots-build"
+  }
+}

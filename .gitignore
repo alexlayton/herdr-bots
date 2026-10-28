@@ -1,0 +1,20 @@
+# dependencies and build output
+node_modules/
+dist/
+*.tsbuildinfo
+
+# runtime state (the daemon keeps these outside the repo, but just in case)
+*.db
+*.db-shm
+*.db-wal
+*.sock
+*.log
+
+# secrets and local config
+.env
+.env.*
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
