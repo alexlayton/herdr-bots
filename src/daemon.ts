@@ -16,7 +16,7 @@ import {
   type AgentInfo,
   type Subscription,
 } from "./herdr";
-import { botsSocket, stateDir } from "./paths";
+import { botsSocket, sessionName, stateDir } from "./paths";
 import { GUIDE } from "./tools";
 
 const num = (name: string, dflt: number) => Number(process.env[name] ?? dflt);
@@ -48,7 +48,8 @@ const fail = (msg: string): never => {
   throw new BotsError(msg);
 };
 
-const store = new Store(join(stateDir(), "bots.db"));
+const dbPath = join(stateDir(), "bots.db");
+const store = new Store(dbPath);
 
 // ---------------------------------------------------------------- in-memory dispatch state
 
@@ -724,7 +725,7 @@ export async function runDaemon() {
   };
   process.on("SIGINT", quit);
   process.on("SIGTERM", quit);
-  log(`bots daemon listening on ${path}; db ${join(stateDir(), "bots.db")}`);
+  log(`bots daemon listening on ${path} (session ${sessionName()}); db ${dbPath}`);
   await startSubscription();
   setInterval(() => void tick(), cfg.tickMs);
 }
