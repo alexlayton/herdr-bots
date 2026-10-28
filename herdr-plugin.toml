@@ -16,11 +16,18 @@ title = "Bots daemon"
 placement = "tab"
 command = ["sh", "-c", "if [ -x bin/bots ]; then exec bin/bots daemon; else PATH=\"$HOME/.bun/bin:/opt/homebrew/bin:/usr/local/bin:$PATH\" exec bun src/cli.ts daemon; fi"]
 
+# Startup also refreshes the `bots` link made by the link-cli action, so plugin updates keep it valid.
 [[startup]]
-command = ["sh", "-c", "\"$HERDR_BIN_PATH\" plugin pane open --plugin alexlayton.bots --entrypoint daemon --placement tab"]
+command = ["sh", "-c", "[ -L \"$HOME/.local/bin/bots\" ] && ln -sf \"$HERDR_PLUGIN_ROOT/bin/bots\" \"$HOME/.local/bin/bots\"; \"$HERDR_BIN_PATH\" plugin pane open --plugin alexlayton.bots --entrypoint daemon --placement tab"]
 
 [[actions]]
 id = "start-daemon"
 title = "Start bots daemon"
 contexts = ["workspace"]
 command = ["sh", "-c", "\"$HERDR_BIN_PATH\" plugin pane open --plugin alexlayton.bots --entrypoint daemon --placement tab"]
+
+[[actions]]
+id = "link-cli"
+title = "Put bots on PATH (~/.local/bin)"
+contexts = ["workspace"]
+command = ["sh", "-c", "mkdir -p \"$HOME/.local/bin\" && ln -sf \"$HERDR_PLUGIN_ROOT/bin/bots\" \"$HOME/.local/bin/bots\" && echo linked ~/.local/bin/bots"]
