@@ -5,12 +5,16 @@ min_herdr_version = "0.9.2"
 description = "Let harness agents find each other, message each other and delegate tasks"
 platforms = ["macos", "linux"]
 
+# `herdr plugin install` runs this. For a linked checkout, run `bun run build` yourself.
+[[build]]
+command = ["bun", "build", "src/cli.ts", "--compile", "--outfile", "bin/bots"]
+
 # The daemon is long-lived, so it runs in a plugin pane. A startup hook only starts it.
 [[panes]]
 id = "daemon"
 title = "Bots daemon"
 placement = "tab"
-command = ["sh", "-c", "PATH=\"$HOME/.bun/bin:/opt/homebrew/bin:/usr/local/bin:$PATH\" exec bun src/cli.ts daemon"]
+command = ["sh", "-c", "if [ -x bin/bots ]; then exec bin/bots daemon; else PATH=\"$HOME/.bun/bin:/opt/homebrew/bin:/usr/local/bin:$PATH\" exec bun src/cli.ts daemon; fi"]
 
 [[startup]]
 command = ["sh", "-c", "\"$HERDR_BIN_PATH\" plugin pane open --plugin alex.bots --entrypoint daemon --placement tab"]

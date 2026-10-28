@@ -10,6 +10,7 @@
   "scripts": {
     "daemon": "bun src/cli.ts daemon",
     "mcp": "bun src/cli.ts mcp",
+    "build": "bun build src/cli.ts --compile --outfile bin/bots",
     "check": "bun build src/cli.ts --target=bun --outdir /tmp/bots-build"
   }
 }

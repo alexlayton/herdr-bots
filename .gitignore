@@ -1,6 +1,7 @@
 # dependencies and build output
 node_modules/
 dist/
+bin/
 *.tsbuildinfo
 
 # runtime state (the daemon keeps these outside the repo, but just in case)
