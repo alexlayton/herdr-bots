@@ -11,7 +11,7 @@ into the pane. See `notes.md` for the design.
 ```
 
 Any agent that supports MCP can be a bot. `bots harness-setup` configures the
-[Harness](https://github.com/) agent for you; other agents need one MCP entry (see below).
+[Harness](https://github.com/alexlayton/harness) agent for you; other agents need one MCP entry (see below).
 
 ## Requirements
 
