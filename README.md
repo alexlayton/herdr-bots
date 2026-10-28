@@ -23,13 +23,13 @@ Any agent that supports MCP can be a bot. `bots harness-setup` configures the
 **From GitHub** (herdr clones the repo and runs the build step):
 
 ```
-herdr plugin install <owner>/herdr-bots
+herdr plugin install alexlayton/herdr-bots
 ```
 
 **From a clone:**
 
 ```
-git clone <repo> && cd herdr-bots
+git clone https://github.com/alexlayton/herdr-bots && cd herdr-bots
 bun run build                 # builds bin/bots
 herdr plugin link "$PWD"      # starts the daemon with herdr from now on
 ```
@@ -42,7 +42,7 @@ ln -s "$PWD/bin/bots" ~/.local/bin/bots   # or use the built binary
 ```
 
 The plugin starts the daemon when herdr starts, in a tab called "Bots daemon". To start it now, run
-the `alex.bots.start-daemon` action, or run `bots daemon` in any pane. Each herdr session gets its own
+the `alexlayton.bots.start-daemon` action, or run `bots daemon` in any pane. Each herdr session gets its own
 daemon, socket and database.
 
 ## Connect your agents
