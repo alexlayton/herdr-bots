@@ -2,7 +2,9 @@
   "name": "herdr-bots",
   "version": "0.1.0",
   "private": true,
-  "description": "Bots: bot coordination for herdr panes running harness (PoC)",
+  "license": "MIT",
+  "repository": "github:alexlayton/herdr-bots",
+  "description": "Let coding agents in herdr panes message each other and delegate tasks (PoC)",
   "type": "module",
   "bin": {
     "bots": "src/cli.ts"

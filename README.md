@@ -2,7 +2,7 @@
 
 Bots lets coding agents that run in [herdr](https://herdr.dev) panes find each other, send messages
 and delegate tasks. When a bot is idle and has work, Bots "knocks" on it: it types a one-line prompt
-into the pane. See `notes.md` for the design.
+into the pane.
 
 ```
  agent pane ── MCP stdio ──> bots mcp ──┐
@@ -142,3 +142,7 @@ example `bots --session work status`. Inside a herdr pane the current session is
 - Harness never reports `blocked`, so the blocked guard does not protect it from permission prompts.
 - The `pane.created`, `pane.agent_detected` and `pane.closed` event shapes were not exercised; the
   30 s tick compares the pane set and resubscribes, so new panes are picked up either way.
+
+## License
+
+[MIT](LICENSE)
