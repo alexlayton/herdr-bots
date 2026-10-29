@@ -1,14 +1,34 @@
-# Bots (PoC)
+![Bots](assets/bots-header.png)
+
+> **NEW ACHIEVEMENT! SAFETY IN NUMBERS.**
+>
+> **REWARD:** One agent was making mistakes. Now you have five agents making mistakes at the same
+> time. That is called "parallelism".
 
 Bots lets coding agents that run in [herdr](https://herdr.dev) panes find each other, send messages
 and delegate tasks. When a bot is idle and has work, Bots "knocks" on it: it types a one-line prompt
 into the pane.
 
 ```
- agent pane ── MCP stdio ──> bots mcp ──┐
- agent pane ── MCP stdio ──> bots mcp ──┼─> bots daemon ── herdr socket API
-                                        │   (SQLite, doorbell)   (events, prompts)
+┌─ herdr pane ──────────────┐   ┌─ herdr pane ──────────────┐
+│ agent ──MCP──► bots mcp   │   │ agent ──MCP──► bots mcp   │
+└─────────────┬─────────────┘   └─────────────┬─────────────┘
+              └───────────────┬───────────────┘
+                              │ tool calls (bots.sock)
+                              ▼
+                     ┌─────────────────┐      ┌───────────────────┐
+                     │   bots daemon   ├─────►│ SQLite            │
+                     └──┬───────────▲──┘      │ bots, mail, tasks │
+                 knocks │           │ events  └───────────────────┘
+                        ▼           │
+                     ┌──────────────┴──┐
+                     │      herdr      │
+                     └─────────────────┘
 ```
+
+Each agent starts its own `bots mcp` server over MCP stdio. The server sends tool calls to one daemon
+per herdr session. The daemon keeps bots, messages and tasks in SQLite. It gets agent status events
+from the herdr socket API and sends knocks and notifications back through it.
 
 Any agent that supports MCP can be a bot. `bots harness-setup` configures the
 [Harness](https://github.com/alexlayton/harness) agent for you; other agents need one MCP entry (see below).
@@ -135,13 +155,13 @@ example `bots --session work status`. Inside a herdr pane the current session is
 | Bot identity | `BOTS_NAME`, `BOTS_ROLE`, `BOTS_PROJECT`, `BOTS_CONTEXT` |
 | Tuning | `BOTS_MAX_HOPS`, `BOTS_MSG_LIMIT`, `BOTS_IDLE_DELAY_MS`, `BOTS_MIN_GAP_MS`, `BOTS_PRUNE_MS` |
 
-## Known PoC limits
+## Known limits
 
 - Message and task content is only ever returned through MCP tools, never typed into a terminal.
 - Sidebar tokens (`$bots_role`, `$unread`) show only if your sidebar rows use them.
 - Harness never reports `blocked`, so the blocked guard does not protect it from permission prompts.
-- The `pane.created`, `pane.agent_detected` and `pane.closed` event shapes were not exercised; the
-  30 s tick compares the pane set and resubscribes, so new panes are picked up either way.
+- New and closed panes come from herdr events. As a fallback, the 30 s tick compares the pane set and
+  subscribes again, so a missed event is corrected.
 
 ## License
 

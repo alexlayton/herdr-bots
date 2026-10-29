@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "repository": "github:alexlayton/herdr-bots",
-  "description": "Let coding agents in herdr panes message each other and delegate tasks (PoC)",
+  "description": "Let coding agents in herdr panes message each other and delegate tasks",
   "type": "module",
   "bin": {
     "bots": "src/cli.ts"
